@@ -45,22 +45,38 @@ export default function Main() {
     {
       name: "Break",
       value: breakLength,
-      increase: () => breakLength < 60 && setBreakLength(breakLength + 1),
-      decrease: () => breakLength > 1 && setBreakLength(breakLength - 1),
+      increase: () => {
+        if (breakLength < 60) {
+          setBreakLength(breakLength + 1);
+
+          if (currentTitle === "Break") {
+            setSecondsLeft(secondsLeft + 60);
+          }
+        }
+      },
+      decrease: () => {
+        if (breakLength > 1) {
+          setBreakLength(breakLength - 1);
+
+          if (currentTitle === "Break") {
+            setSecondsLeft(secondsLeft - 60);
+          }
+        }
+      },
     },
     {
       name: "Session",
       value: sessionLength,
       increase: () => {
         if (sessionLength < 60) {
-          setSecondsLeft(secondsLeft + 60);
           setSessionLength(sessionLength + 1);
+          setSecondsLeft(secondsLeft + 60);
         }
       },
       decrease: () => {
         if (sessionLength > 1) {
-          setSecondsLeft(secondsLeft - 60);
           setSessionLength(sessionLength - 1);
+          setSecondsLeft(secondsLeft - 60);
         }
       },
     },
@@ -82,6 +98,11 @@ export default function Main() {
     setSecondsLeft(1500);
     setPlaying(false);
     setCurrentTitle("Session");
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
   }
 
   return (
