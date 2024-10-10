@@ -6,7 +6,7 @@ import Timer from "./Timer";
 export default function Main() {
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
-  const [secondsLeft, setSecondsLeft] = useState(1500);
+  const [secondsLeft, setSecondsLeft] = useState(sessionLength * 60);
   const [playing, setPlaying] = useState(false);
 
   function pauseOrPlay() {
