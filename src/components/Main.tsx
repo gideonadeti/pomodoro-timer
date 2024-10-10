@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Lengths from "./Lengths";
 import Timer from "./Timer";
@@ -9,6 +9,7 @@ export default function Main() {
   const [secondsLeft, setSecondsLeft] = useState(sessionLength * 60);
   const [playing, setPlaying] = useState(false);
   const [currentTitle, setCurrentTitle] = useState("Session");
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   function pauseOrPlay() {
     setPlaying(!playing);
@@ -25,12 +26,17 @@ export default function Main() {
       }
     }
 
+    const playAudio = () => {
+      audioRef.current?.play();
+    };
+
     if (playing && secondsLeft > 0) {
       const interval = setInterval(() => {
         setSecondsLeft((secondsLeft) => secondsLeft - 1);
       }, 1000);
       return () => clearInterval(interval);
     } else if (secondsLeft === 0) {
+      playAudio();
       switchTimer();
     }
   }, [playing, secondsLeft, breakLength, currentTitle, sessionLength]);
@@ -97,6 +103,11 @@ export default function Main() {
           />
         </div>
       </div>
+      <audio
+        src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+        preload="auto"
+        ref={audioRef}
+      />
     </main>
   );
 }
