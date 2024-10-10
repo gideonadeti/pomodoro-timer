@@ -112,7 +112,7 @@ export default function Main() {
         style={{ maxWidth: "420px", minHeight: "360px" }}
       >
         <div className="row mb-3">
-          <Lengths lengths={lengths} />
+          <Lengths lengths={lengths} playing={playing} />
         </div>
         <div className="d-flex flex-column align-items-center">
           <Timer
