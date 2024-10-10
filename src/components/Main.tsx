@@ -8,19 +8,32 @@ export default function Main() {
   const [sessionLength, setSessionLength] = useState(25);
   const [secondsLeft, setSecondsLeft] = useState(sessionLength * 60);
   const [playing, setPlaying] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState("Session");
 
   function pauseOrPlay() {
     setPlaying(!playing);
   }
 
   useEffect(() => {
-    if (playing) {
+    function switchTimer() {
+      if (currentTitle === "Session") {
+        setCurrentTitle("Break");
+        setSecondsLeft(breakLength * 60);
+      } else {
+        setCurrentTitle("Session");
+        setSecondsLeft(sessionLength * 60);
+      }
+    }
+
+    if (playing && secondsLeft > 0) {
       const interval = setInterval(() => {
         setSecondsLeft((secondsLeft) => secondsLeft - 1);
       }, 1000);
       return () => clearInterval(interval);
+    } else if (secondsLeft === 0) {
+      switchTimer();
     }
-  }, [playing]);
+  }, [playing, secondsLeft, breakLength, currentTitle, sessionLength]);
 
   const lengths = [
     {
@@ -62,6 +75,7 @@ export default function Main() {
     setSessionLength(25);
     setSecondsLeft(1500);
     setPlaying(false);
+    setCurrentTitle("Session");
   }
 
   return (
@@ -75,7 +89,7 @@ export default function Main() {
         </div>
         <div className="d-flex flex-column align-items-center">
           <Timer
-            title="Session"
+            title={currentTitle}
             time={formatTime()}
             reset={reset}
             pauseOrPlay={pauseOrPlay}
