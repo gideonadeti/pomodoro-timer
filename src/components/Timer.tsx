@@ -1,9 +1,11 @@
 export default function Timer({
   title,
   time,
+  reset
 }: {
   title: string;
   time: string;
+  reset: () => void
 }) {
   return (
     <>
@@ -14,7 +16,7 @@ export default function Timer({
       <Controls
         playing={false}
         handlePausePlay={() => {}}
-        handleReset={() => {}}
+        handleReset={reset}
       />
     </>
   );

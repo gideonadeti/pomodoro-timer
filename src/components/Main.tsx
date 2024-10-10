@@ -32,6 +32,11 @@ export default function Main() {
     return `${formattedMinutes}:${formattedSeconds}`;
   }
 
+  function reset() {
+    setBreakLength(5);
+    setSessionLength(25);
+  }
+
   return (
     <main className="flex-grow-1 container-fluid mt-5">
       <div
@@ -42,7 +47,11 @@ export default function Main() {
           <Lengths lengths={lengths} />
         </div>
         <div className="d-flex flex-column align-items-center">
-          <Timer title="Session" time={formatTime(sessionLength * 60)} />
+          <Timer
+            title="Session"
+            time={formatTime(sessionLength * 60)}
+            reset={reset}
+          />
         </div>
       </div>
     </main>
