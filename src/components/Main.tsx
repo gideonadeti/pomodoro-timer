@@ -22,6 +22,16 @@ export default function Main() {
     },
   ];
 
+  function formatTime(timeLeft: number) {
+    const minutesPart = Math.floor(timeLeft / 60);
+    const secondsPart = timeLeft - minutesPart * 60;
+
+    const formattedSeconds = secondsPart < 10 ? "0" + secondsPart : secondsPart;
+    const formattedMinutes = minutesPart < 10 ? "0" + minutesPart : minutesPart;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
   return (
     <main className="flex-grow-1 container-fluid mt-5">
       <div
@@ -32,7 +42,7 @@ export default function Main() {
           <Lengths lengths={lengths} />
         </div>
         <div className="d-flex flex-column align-items-center">
-          <Timer title="Session" time="25:00" />
+          <Timer title="Session" time={formatTime(sessionLength * 60)} />
         </div>
       </div>
     </main>
