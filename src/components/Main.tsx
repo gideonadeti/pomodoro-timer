@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import Lengths from "./Lengths";
+import Timer from "./Timer";
 
 export default function Main() {
   const [breakLength, setBreakLength] = useState(5);
@@ -24,11 +25,14 @@ export default function Main() {
   return (
     <main className="flex-grow-1 container-fluid mt-5">
       <div
-        className="container border rounded shadow-sm"
+        className="container border rounded shadow-sm p-3"
         style={{ maxWidth: "420px", minHeight: "360px" }}
       >
-        <div className="row my-3 px-2">
+        <div className="row mb-3">
           <Lengths lengths={lengths} />
+        </div>
+        <div className="d-flex flex-column align-items-center">
+          <Timer title="Session" time="25:00" />
         </div>
       </div>
     </main>
