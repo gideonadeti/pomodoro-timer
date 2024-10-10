@@ -32,8 +32,18 @@ export default function Main() {
     {
       name: "Session",
       value: sessionLength,
-      increase: () => sessionLength < 60 && setSessionLength(sessionLength + 1),
-      decrease: () => sessionLength > 1 && setSessionLength(sessionLength - 1),
+      increase: () => {
+        if (sessionLength < 60) {
+          setSecondsLeft(secondsLeft + 60);
+          setSessionLength(sessionLength + 1);
+        }
+      },
+      decrease: () => {
+        if (sessionLength > 1) {
+          setSecondsLeft(secondsLeft - 60);
+          setSessionLength(sessionLength - 1);
+        }
+      },
     },
   ];
 
