@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Lengths from "./Lengths";
 import Timer from "./Timer";
@@ -6,6 +6,21 @@ import Timer from "./Timer";
 export default function Main() {
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
+  const [secondsLeft, setSecondsLeft] = useState(1500);
+  const [playing, setPlaying] = useState(false);
+
+  function pauseOrPlay() {
+    setPlaying(!playing);
+  }
+
+  useEffect(() => {
+    if (playing) {
+      const interval = setInterval(() => {
+        setSecondsLeft((secondsLeft) => secondsLeft - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [playing]);
 
   const lengths = [
     {
@@ -22,9 +37,9 @@ export default function Main() {
     },
   ];
 
-  function formatTime(timeLeft: number) {
-    const minutesPart = Math.floor(timeLeft / 60);
-    const secondsPart = timeLeft - minutesPart * 60;
+  function formatTime() {
+    const minutesPart = Math.floor(secondsLeft / 60);
+    const secondsPart = secondsLeft - minutesPart * 60;
 
     const formattedSeconds = secondsPart < 10 ? "0" + secondsPart : secondsPart;
     const formattedMinutes = minutesPart < 10 ? "0" + minutesPart : minutesPart;
@@ -35,6 +50,8 @@ export default function Main() {
   function reset() {
     setBreakLength(5);
     setSessionLength(25);
+    setSecondsLeft(1500);
+    setPlaying(false);
   }
 
   return (
@@ -49,8 +66,10 @@ export default function Main() {
         <div className="d-flex flex-column align-items-center">
           <Timer
             title="Session"
-            time={formatTime(sessionLength * 60)}
+            time={formatTime()}
             reset={reset}
+            pauseOrPlay={pauseOrPlay}
+            playing={playing}
           />
         </div>
       </div>
