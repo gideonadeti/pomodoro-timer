@@ -11,14 +11,14 @@ export default function Main() {
     {
       name: "Break",
       value: breakLength,
-      increase: () => setBreakLength(breakLength + 1),
-      decrease: () => setBreakLength(breakLength - 1),
+      increase: () => breakLength < 60 && setBreakLength(breakLength + 1),
+      decrease: () => breakLength > 1 && setBreakLength(breakLength - 1),
     },
     {
       name: "Session",
       value: sessionLength,
-      increase: () => setSessionLength(sessionLength + 1),
-      decrease: () => setSessionLength(sessionLength - 1),
+      increase: () => sessionLength < 60 && setSessionLength(sessionLength + 1),
+      decrease: () => sessionLength > 1 && setSessionLength(sessionLength - 1),
     },
   ];
 
